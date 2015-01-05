@@ -14,7 +14,14 @@
 /* copies the master board to a local copy for each game */
 void init_board(enum cell_contents board[][BOARD_HEIGHT])
 {
-	/* delete this comment and write your own comments and code here */
+	int height, width;
+	for(height = 0; height < BOARD_HEIGHT; height++)
+	{
+		for(width = 0; width < BOARD_WIDTH; width++)
+		{
+			board[height][width] = master_board[height][width];
+		}
+	}
 }
 
 /* display the game board to the screen */
