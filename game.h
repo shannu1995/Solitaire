@@ -13,11 +13,6 @@
 #define GAME_H
 
 #include "board.h"
-/*
-struct position {
-	int x, y;
-};
-*/
 struct move {
 	struct position start, end;
 };

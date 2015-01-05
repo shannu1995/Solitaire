@@ -24,3 +24,28 @@ void read_rest_of_line(void)
         clearerr(stdin);
 }
 
+int get_integer(void)
+{
+	char prompt[MENU_LEN + EXTRA_CHARS];
+	char *endPtr;
+	int choice;
+	fgets(prompt, MENU_LEN + EXTRA_CHARS, stdin);
+	if(prompt[strlen(prompt) - 1] != '\n')
+	{
+		fprintf(stderr, "Error: Input too long\n");
+		return FAIL;
+	}
+	prompt[strlen(prompt) - 1] = '\0';
+	choice = strtol(prompt,&endPtr,DECIMAL);
+	if(*endPtr)
+	{
+		fprintf(stderr, "Error: Input not numeric\n");
+		return FAIL;
+	}
+	if(choice < 1 || choice > 3)
+	{
+		fprintf(stderr, "Error: Input should be between 1 and 3\n");
+		return FAIL;
+	}
+	return choice;
+}

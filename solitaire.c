@@ -10,6 +10,7 @@
  **********************************************************************/
 
 #include "solitaire.h"
+#include "utility.h"
 
 void display_menu(void)
 {
@@ -22,7 +23,13 @@ void display_menu(void)
 
 int main(int argc, char *argv[])
 {
+	int choice;
 	display_menu();
+	while((choice = get_integer()) == FAIL)
+	{
+		fprintf(stderr, "Invalid Input, please try again\n");
+	}
+	printf("You chose option number %d\n",choice);
 	return EXIT_SUCCESS;
 }
 

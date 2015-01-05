@@ -10,6 +10,11 @@
  **********************************************************************/
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
+#define MENU_LEN 1
+#define EXTRA_CHARS 2
+#define DECIMAL 10
+#define FAIL -1
 #ifndef UTILITY_H 
 #define UTILITY_H
 
@@ -19,5 +24,5 @@ typedef enum {
 
 /* clears residual data from stdin */
 void read_rest_of_line(void);
-
+int get_integer(void);
 #endif
