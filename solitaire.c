@@ -11,9 +11,18 @@
 
 #include "solitaire.h"
 
-int main(int argc, char *argv[])
+void display_menu(void)
 {
-	return EXIT_SUCCESS;
+	char  name_of_game[] = "\nPEG SOLITAIRE\n\n";
+	char  option1[] = "1. Play Game\n";
+	char  option2[] = "2. How to Play\n";
+	char  option3[] = "3. Quit\n"; 
+	printf("%s%s%s%s",name_of_game,option1,option2,option3);
 }
 
+int main(int argc, char *argv[])
+{
+	display_menu();
+	return EXIT_SUCCESS;
+}
 
