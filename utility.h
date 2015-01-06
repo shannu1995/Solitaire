@@ -12,6 +12,7 @@
 #include <stdlib.h>
 #include <string.h>
 #define MENU_LEN 1
+#define MAIN_LEN 10
 #define EXTRA_CHARS 2
 #define DECIMAL 10
 #define FAIL -1
@@ -25,4 +26,5 @@ typedef enum {
 /* clears residual data from stdin */
 void read_rest_of_line(void);
 int get_integer(void);
+char* get_string(char prompt[], int length);
 #endif

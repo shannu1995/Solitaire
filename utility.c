@@ -49,3 +49,32 @@ int get_integer(void)
 	}
 	return choice;
 }
+
+char* get_string(char prompt[], int length)
+{
+	char temp[MAIN_LEN + EXTRA_CHARS];
+	int first, second;
+	fgets(temp, MAIN_LEN + EXTRA_CHARS, stdin);
+	if(temp[strlen(temp) - 1] != '\n')
+	{
+		fprintf(stderr, "Error: Input too long\n");
+		return "FAIL";
+	}
+	temp[strlen(temp) - 1] = '\0';
+	first = temp[1] - '0';
+	second = temp[strlen(temp) - 1] - '0';
+	if(((temp[0] >= 'a' && temp[0] <= 'z') || (temp[0] >= 'A' && temp[0] <= 'Z')) 
+	&& ((temp[strlen(temp) - 2] >= 'a' && temp[strlen(temp) - 2] <= 'z') || (temp[strlen(temp) - 2] >= 'A' && temp[strlen(temp) - 2] <= 'Z'))
+	&& ((first >= 1 && first <= 7) && (second >= 1 && second <= 7)))
+	{
+		strcpy(prompt, temp);
+		return prompt;
+	}
+	printf("%s\n",temp);
+		printf("temp[0] = %c\n",temp[0]);
+		printf("temp[1] = %c\n",temp[1]);
+		printf("temp[strlen(temp) - 2] = %c\n",temp[strlen(temp) - 2]);
+		printf("temp[strlen(temp) - 1] = %c\n",temp[strlen(temp) - 1]);
+		fprintf(stderr, "Error: Input not correct\n");
+		return "FAIL";
+}

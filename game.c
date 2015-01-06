@@ -14,9 +14,11 @@
 /* Requirement 3 - controls the flow of play in the game */
 void play_game(void)
 {
+	char prompt[MAIN_LEN + EXTRA_CHARS];
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
 	init_board(board);
 	display_board(board);
+	printf("%s\n",get_string(prompt,MAIN_LEN + EXTRA_CHARS));
 }
 
 /* Requirement 6 - tests to see whether a move is valid or not */
