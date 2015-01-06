@@ -63,7 +63,6 @@ char* get_string(char prompt[], int length)
 	temp[strlen(temp) - 1] = '\0';
 	first = temp[1] - '0';
 	second = temp[strlen(temp) - 1] - '0';
-	
 	if(((temp[0] >= 'a' && temp[0] <= 'z') || (temp[0] >= 'A' && temp[0] <= 'Z')) 
 	&& ((temp[strlen(temp) - 2] >= 'a' && temp[strlen(temp) - 2] <= 'z') || (temp[strlen(temp) - 2] >= 'A' && temp[strlen(temp) - 2] <= 'Z'))
 	&& ((first >= 1 && first <= 7) && (second >= 1 && second <= 7)))
