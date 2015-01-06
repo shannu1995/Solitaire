@@ -15,7 +15,8 @@
 void play_game(void)
 {
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
-	/* delete this comment and write your own comments and code here */
+	init_board(board);
+	display_board(board);
 }
 
 /* Requirement 6 - tests to see whether a move is valid or not */
@@ -36,7 +37,6 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 /* Requirement 5 - handle the logic for each individual move */
 enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 {
-	/* delete this and write your own comments and code here */
 	return SUCCESSFUL_MOVE;
 }
 

@@ -11,6 +11,7 @@
 
 #include "solitaire.h"
 #include "utility.h"
+#include "game.h"
 
 void display_menu(void)
 {
@@ -29,7 +30,15 @@ int main(int argc, char *argv[])
 	{
 		fprintf(stderr, "Invalid Input, please try again\n");
 	}
-	printf("You chose option number %d\n",choice);
+	switch(choice)
+	{
+		case 1:
+			play_game();
+			break;
+		default:
+			printf("Not yet ready\n");
+			break;
+	}
 	return EXIT_SUCCESS;
 }
 
