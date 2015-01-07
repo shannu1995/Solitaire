@@ -51,8 +51,8 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	}
 	width1 = prompt[0];
 	width2 = prompt[strlen(prompt) - 2];
-	initialWidth = width1 - 'A' - 1;
-	finalWidth = width2 - 'A' - 1;
+	initialWidth = width1 - 'A';
+	finalWidth = width2 - 'A';
 	initialHeight = prompt[1] - '0' - 1;
 	finalHeight = prompt[strlen(prompt) - 1] - '0' - 1;
 	printf("Coordinates are: %d,%d-%d,%d",initialHeight, initialWidth, finalHeight, finalWidth);
