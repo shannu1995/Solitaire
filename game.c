@@ -17,16 +17,56 @@ void play_game(void)
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
 	init_board(board);
 	display_board(board);
-	player_move(board);
-	display_board(board);
+	while(!is_game_over(board))
+	{
+		player_move(board);
+		display_board(board);
+	}
 }
 
 /* Requirement 6 - tests to see whether a move is valid or not */
-BOOLEAN is_valid_move(struct move curr_move,
-        enum cell_contents board[][BOARD_HEIGHT])
+BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEIGHT])
 {
-	/* delete this and write your own comments and code here */
-	return FALSE;
+	enum cell_contents start = board[curr_move.start.x][curr_move.start.y];
+	enum cell_contents end = board[curr_move.end.x][curr_move.end.y];
+	if(start == INVALID || start == EMPTY || start == HOLE)
+	{
+		fprintf(stderr, "Error: Cannot move an empty block\n");
+		return FALSE;
+	}
+	if(end == INVALID || end == PEG)
+	{
+		fprintf(stderr, "Error: Cannot move into an occupied block\n");
+		return FALSE;
+	}
+	if(abs(curr_move.start.x - curr_move.end.x) != 2)
+	{
+		if(abs(curr_move.start.y - curr_move.end.y) != 2)
+		{
+			fprintf(stderr, "Error: Can only move orthagonally\n");
+			return FALSE;
+		}
+	}
+	else
+	{
+		if(curr_move.end.x > curr_move.start.x)
+		{
+			if(board[curr_move.start.x + 1][curr_move.end.y] == EMPTY)
+			{
+				fprintf(stderr, "Error: Must jump over something\n");
+				return FALSE;
+			}
+		}
+		else
+		{
+			if(board[curr_move.start.x - 1][curr_move.end.y] == EMPTY)
+			{
+				fprintf(stderr, "Error: Must jump over something\n");
+				return FALSE;
+			}
+		}
+	}
+	return TRUE;
 }
 
 /* Requirement 7 - tests to see whether it is the end of the game */
@@ -60,7 +100,26 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	mover.start.y = initialHeight;
 	mover.end.x = finalWidth;
 	mover.end.y = finalHeight;
+	while(is_valid_move(mover,board) == FALSE)
+	{
+		fprintf(stderr,"Error: Invalid move, please try again\n");
+		player_move(board);
+	}
 	board[mover.end.x][mover.end.y] = board[mover.start.x][mover.start.y];
 	board[mover.start.x][mover.start.y] = EMPTY;
+	if(abs(mover.end.x - mover.start.x) == 2)
+	{
+		if(mover.end.x > mover.start.x)
+			board[mover.start.x + 1][mover.start.y] = EMPTY;
+		else
+			board[mover.start.x - 1][mover.start.y] = EMPTY;
+	}
+	else
+	{
+		if(mover.end.y > mover.start.y)
+			board[mover.start.x][mover.start.y + 1] = EMPTY;
+		else
+			board[mover.start.x][mover.start.y - 1] = EMPTY;
+	}
 	return SUCCESSFUL_MOVE;
 }
