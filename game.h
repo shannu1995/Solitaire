@@ -19,7 +19,7 @@ struct move {
 
 enum move_result
 {
-	QUIT_GAME, SUCCESSFUL_MOVE
+	QUIT_GAME, SUCCESSFUL_MOVE, INVALID_MOVE /*Added this on my own*/
 };
 
 /* Requirement 3 - controls the flow of play in the game */

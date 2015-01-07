@@ -14,17 +14,11 @@
 /* Requirement 3 - controls the flow of play in the game */
 void play_game(void)
 {
-	char prompt[MAIN_LEN + EXTRA_CHARS];
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
 	init_board(board);
 	display_board(board);
-	while(1 > 0)
-	{
-		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
-			fprintf(stderr,"Error: Invalid Input, please try again\n");
-		else
-			break;
-	}
+	player_move(board);
+	display_board(board);
 }
 
 /* Requirement 6 - tests to see whether a move is valid or not */
@@ -45,6 +39,25 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 /* Requirement 5 - handle the logic for each individual move */
 enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 {
+	char prompt[MAIN_LEN + EXTRA_CHARS];
+	char width1, width2;
+	int initialWidth, initialHeight, finalWidth, finalHeight;
+	while(1 > 0)
+	{
+		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
+			fprintf(stderr,"Error: Invalid Input, please try again\n");
+		else
+			break;
+	}
+	width1 = prompt[0];
+	width2 = prompt[strlen(prompt) - 2];
+	initialWidth = width1 - 'A' - 1;
+	finalWidth = width2 - 'A' - 1;
+	initialHeight = prompt[1] - '0' - 1;
+	finalHeight = prompt[strlen(prompt) - 1] - '0' - 1;
+	printf("Coordinates are: %d,%d-%d,%d",initialHeight, initialWidth, finalHeight, finalWidth);
+	board[finalWidth][finalHeight] = board[initialWidth][initialHeight];
+	board[initialWidth][initialHeight] = EMPTY;
 	return SUCCESSFUL_MOVE;
 }
 

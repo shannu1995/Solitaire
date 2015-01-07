@@ -68,6 +68,9 @@ void display_board(enum cell_contents board[][BOARD_HEIGHT])
 				case HOLE:
 					printf("%s|%s %s.%s ",COLOR_LINES,COLOR_RESET,COLOR_LINES,COLOR_RESET);
 					break;
+				case EMPTY:
+					printf("%s|%s   ",COLOR_LINES,COLOR_RESET);
+					break;
 			}
 		}
 		printf("%s|%s\n",COLOR_LINES,COLOR_RESET);

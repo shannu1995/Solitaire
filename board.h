@@ -26,7 +26,7 @@ struct position {
 };
 
 enum cell_contents {
-	INVALID, HOLE, PEG
+	INVALID, HOLE, PEG, EMPTY /*Added this*/
 };
 
 /* The initial game board - this is an example of the occasional
