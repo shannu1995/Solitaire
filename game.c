@@ -42,6 +42,7 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	char prompt[MAIN_LEN + EXTRA_CHARS];
 	char width1, width2;
 	int initialWidth, initialHeight, finalWidth, finalHeight;
+	struct move mover;
 	while(1 > 0)
 	{
 		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
@@ -55,8 +56,11 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	finalWidth = width2 - 'A';
 	initialHeight = prompt[1] - '0' - 1;
 	finalHeight = prompt[strlen(prompt) - 1] - '0' - 1;
-	printf("Coordinates are: %d,%d-%d,%d",initialHeight, initialWidth, finalHeight, finalWidth);
-	board[finalWidth][finalHeight] = board[initialWidth][initialHeight];
-	board[initialWidth][initialHeight] = EMPTY;
+	mover.start.x = initialWidth;
+	mover.start.y = initialHeight;
+	mover.end.x = finalWidth;
+	mover.end.y = finalHeight;
+	board[mover.end.x][mover.end.y] = board[mover.start.x][mover.start.y];
+	board[mover.start.x][mover.start.y] = EMPTY;
 	return SUCCESSFUL_MOVE;
 }
