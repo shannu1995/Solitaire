@@ -100,26 +100,26 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	mover.start.y = initialHeight;
 	mover.end.x = finalWidth;
 	mover.end.y = finalHeight;
-	while(is_valid_move(mover,board) == FALSE)
+	if(is_valid_move(mover,board) == TRUE)
 	{
-		fprintf(stderr,"Error: Invalid move, please try again\n");
-		player_move(board);
-	}
-	board[mover.end.x][mover.end.y] = board[mover.start.x][mover.start.y];
-	board[mover.start.x][mover.start.y] = EMPTY;
-	if(abs(mover.end.x - mover.start.x) == 2)
-	{
-		if(mover.end.x > mover.start.x)
-			board[mover.start.x + 1][mover.start.y] = EMPTY;
+		board[mover.end.x][mover.end.y] = board[mover.start.x][mover.start.y];
+		board[mover.start.x][mover.start.y] = EMPTY;
+		if(abs(mover.end.x - mover.start.x) == 2)
+		{
+			if(mover.end.x > mover.start.x)
+				board[mover.start.x + 1][mover.start.y] = EMPTY;
+			else
+				board[mover.start.x - 1][mover.start.y] = EMPTY;
+		}
 		else
-			board[mover.start.x - 1][mover.start.y] = EMPTY;
+		{
+			if(mover.end.y > mover.start.y)
+				board[mover.start.x][mover.start.y + 1] = EMPTY;
+			else
+				board[mover.start.x][mover.start.y - 1] = EMPTY;
+		}
 	}
 	else
-	{
-		if(mover.end.y > mover.start.y)
-			board[mover.start.x][mover.start.y + 1] = EMPTY;
-		else
-			board[mover.start.x][mover.start.y - 1] = EMPTY;
-	}
+		fprintf(stderr, "Error: Invalid move, please try again\n");
 	return SUCCESSFUL_MOVE;
 }
