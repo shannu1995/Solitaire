@@ -18,7 +18,13 @@ void play_game(void)
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
 	init_board(board);
 	display_board(board);
-	printf("%s\n",get_string(prompt,MAIN_LEN + EXTRA_CHARS));
+	while(1 > 0)
+	{
+		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
+			fprintf(stderr,"Error: Invalid Input, please try again\n");
+		else
+			break;
+	}
 }
 
 /* Requirement 6 - tests to see whether a move is valid or not */

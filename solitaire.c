@@ -34,6 +34,9 @@ int main(int argc, char *argv[])
 		case 1:
 			play_game();
 			break;
+		case 3:
+			exit(0);
+			break;
 		default:
 			printf("Not yet ready\n");
 			break;
