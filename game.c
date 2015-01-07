@@ -60,5 +60,3 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	board[initialWidth][initialHeight] = EMPTY;
 	return SUCCESSFUL_MOVE;
 }
-
-
