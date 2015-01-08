@@ -72,7 +72,21 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 /* Requirement 7 - tests to see whether it is the end of the game */
 BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 {
-	/* delete this and write your own comments and code here */
+	unsigned pegs = 0;
+	int height, width;
+	for(height = 0; height < BOARD_HEIGHT; height++)
+	{
+		for(width = 0; width < BOARD_WIDTH; width++)
+		{
+			if(board[height][width] == PEG)
+				pegs++;
+		}
+	}
+	if(pegs == 1)
+	{
+		return TRUE;
+	}
+	printf("%d\n",pegs);
 	return FALSE;
 }
 
