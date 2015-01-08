@@ -24,10 +24,9 @@ enum move_result
 
 /* Requirement 3 - controls the flow of play in the game */
 void play_game(void);
-
+BOOLEAN moves_exist(int height, int width, enum cell_contents board[][BOARD_HEIGHT]);
 /* Requirement 6 - tests to see whether a move is valid or not */
-BOOLEAN is_valid_move(struct move curr_move,
-	enum cell_contents board[][BOARD_HEIGHT]);
+BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEIGHT]);
 
 /* Requirement 7 - tests to see whether it is the end of the game */
 BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT]);

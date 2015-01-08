@@ -73,21 +73,96 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 {
 	unsigned pegs = 0;
+	unsigned validPegs = 0;
 	int height, width;
+	printf("Valid pegs:");
 	for(height = 0; height < BOARD_HEIGHT; height++)
 	{
 		for(width = 0; width < BOARD_WIDTH; width++)
 		{
 			if(board[height][width] == PEG)
+			{
+				if(moves_exist(height, width, board))
+				{
+					validPegs++;
+				}
 				pegs++;
+			}
 		}
 	}
+	printf("\n");
 	if(pegs == 1)
 	{
 		return TRUE;
 	}
+	if(validPegs == 0)
+	{
+		return TRUE;
+	}
 	printf("%d\n",pegs);
+	printf("%d\n",validPegs);
 	return FALSE;
+}
+
+BOOLEAN moves_exist(int height, int width, enum cell_contents board[][BOARD_HEIGHT])
+{
+	char x;
+	x = width  + 'A';
+	if(board[height + 2][width] == PEG && board[height - 2][width] == PEG && board[height][width + 2] == PEG && board[height][width - 2] == PEG)
+	{
+		return FALSE;
+	}
+	if(height == 0)
+	{
+		if(board[height][width - 2] == INVALID && board[height][width + 2] == INVALID)
+		{
+			if((board[height + 2][width] != EMPTY) || (board[height + 1][width] != PEG))
+				return FALSE;
+		}
+		else
+		{
+			if(board[height][width - 1] == INVALID)
+			{
+				if((board[height][width + 2] == EMPTY || board[height][width + 1] == PEG)
+				&& (board[height + 2][width] == EMPTY || board[height + 2][width] == PEG))
+					return FALSE;
+			}
+			else
+			{
+				if((board[height][width - 2] == EMPTY || board[height][width - 1] == PEG)
+				&& (board[height + 2][width] == EMPTY || board[height + 2][width] == PEG))
+					return FALSE;
+			}
+		}
+	}
+	if(height == 6)
+	{
+		if(board[height][width - 2] == INVALID && board[height][width + 2] == INVALID)
+		{
+			if((board[height - 2][width] != EMPTY) || (board[height - 1][width] != PEG))
+				return FALSE;
+		}
+		else
+		{
+			if(board[height - 2][width] != EMPTY || board[height - 1][width] != PEG)
+			{
+				if(board[height][width - 1] == INVALID)
+				{
+					if((board[height][width + 2] == EMPTY || board[height][width + 1] == PEG)
+					&& (board[height - 2][width] == EMPTY || board[height - 1][width] == PEG))
+						return FALSE;
+				}
+				else
+				{
+					if((board[height][width - 2] == EMPTY || board[height][width - 1] == PEG)
+					&& (board[height - 2][width] == EMPTY || board[height - 1][width] == PEG))
+						return FALSE;
+				}
+			}
+		}
+	}
+	printf("%c%d ",x,height+1);
+	return TRUE;
 }
 
 /* Requirement 5 - handle the logic for each individual move */
