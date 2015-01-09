@@ -33,8 +33,7 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT]);
 
 /* Requirement 5 - handle the logic for each individual move */
 enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT]);
-
-
+BOOLEAN check_validity(struct move curr_move,enum cell_contents board[][BOARD_HEIGHT]);
 #endif
 
 

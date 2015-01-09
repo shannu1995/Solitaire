@@ -29,6 +29,11 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 {
 	enum cell_contents start = board[curr_move.start.x][curr_move.start.y];
 	enum cell_contents end = board[curr_move.end.x][curr_move.end.y];
+	if(curr_move.end.x < 0 || curr_move.end.y < 0 || curr_move.end.x > 6 || curr_move.end.y > 6)
+	{
+		fprintf(stderr, "Error: Cannot move out of bounds\n");
+		return FALSE;
+	}
 	if(start == INVALID || start == EMPTY || start == HOLE)
 	{
 		fprintf(stderr, "Error: Cannot move an empty block\n");
@@ -75,7 +80,7 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 	unsigned pegs = 0;
 	unsigned validPegs = 0;
 	int height, width;
-	printf("Valid pegs:");
+	printf("Valid moves:");
 	for(height = 0; height < BOARD_HEIGHT; height++)
 	{
 		for(width = 0; width < BOARD_WIDTH; width++)
@@ -91,78 +96,44 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 		}
 	}
 	printf("\n");
-	if(pegs == 1)
-	{
-		return TRUE;
-	}
-	if(validPegs == 0)
-	{
-		return TRUE;
-	}
-	printf("%d\n",pegs);
-	printf("%d\n",validPegs);
 	return FALSE;
 }
 
 BOOLEAN moves_exist(int height, int width, enum cell_contents board[][BOARD_HEIGHT])
 {
-	char x;
-	x = width  + 'A';
-	if(board[height + 2][width] == PEG && board[height - 2][width] == PEG && board[height][width + 2] == PEG && board[height][width - 2] == PEG)
+	struct move possible_move;
+	struct position vertical1, vertical2, horizontal1, horizontal2;
+	possible_move.start.x = width;
+	possible_move.start.y = height;
+	vertical1.x = width;
+	vertical1.y = height + 2;
+	vertical2.x = width;
+	vertical2.y = height - 2;
+	horizontal1.x = width + 2;
+	horizontal1.y = height;
+	horizontal2.x = width - 2;
+	horizontal2.y = height;
+	if(possible_move.end = vertical1, check_validity(possible_move, board))
 	{
-		return FALSE;
+		printf("%c%d-%c%d ", width + 'A',height + 1, vertical1.x + 'A', vertical1.y + 1);
+		return TRUE;
 	}
-	if(height == 0)
+	if(possible_move.end = vertical2, check_validity(possible_move, board))
 	{
-		if(board[height][width - 2] == INVALID && board[height][width + 2] == INVALID)
-		{
-			if((board[height + 2][width] != EMPTY) || (board[height + 1][width] != PEG))
-				return FALSE;
-		}
-		else
-		{
-			if(board[height][width - 1] == INVALID)
-			{
-				if((board[height][width + 2] == EMPTY || board[height][width + 1] == PEG)
-				&& (board[height + 2][width] == EMPTY || board[height + 2][width] == PEG))
-					return FALSE;
-			}
-			else
-			{
-				if((board[height][width - 2] == EMPTY || board[height][width - 1] == PEG)
-				&& (board[height + 2][width] == EMPTY || board[height + 2][width] == PEG))
-					return FALSE;
-			}
-		}
+		printf("%c%d-%c%d ", width + 'A',height + 1,vertical2.x + 'A', vertical2.y + 1);
+		return TRUE;
 	}
-	if(height == 6)
+	if(possible_move.end = horizontal1, check_validity(possible_move, board))
 	{
-		if(board[height][width - 2] == INVALID && board[height][width + 2] == INVALID)
-		{
-			if((board[height - 2][width] != EMPTY) || (board[height - 1][width] != PEG))
-				return FALSE;
-		}
-		else
-		{
-			if(board[height - 2][width] != EMPTY || board[height - 1][width] != PEG)
-			{
-				if(board[height][width - 1] == INVALID)
-				{
-					if((board[height][width + 2] == EMPTY || board[height][width + 1] == PEG)
-					&& (board[height - 2][width] == EMPTY || board[height - 1][width] == PEG))
-						return FALSE;
-				}
-				else
-				{
-					if((board[height][width - 2] == EMPTY || board[height][width - 1] == PEG)
-					&& (board[height - 2][width] == EMPTY || board[height - 1][width] == PEG))
-						return FALSE;
-				}
-			}
-		}
+		printf("%c%d-%c%d ", width + 'A',height + 1,horizontal1.x + 'A', horizontal1.y + 1);
+		return TRUE;
 	}
-	printf("%c%d ",x,height+1);
-	return TRUE;
+	if(possible_move.end = horizontal2, check_validity(possible_move, board))
+	{
+		printf("%c%d-%c%d ", width + 'A',height + 1,horizontal2.x + 'A', horizontal2.y + 1);
+		return TRUE;
+	}
+	return FALSE;
 }
 
 /* Requirement 5 - handle the logic for each individual move */
@@ -211,4 +182,47 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	else
 		fprintf(stderr, "Error: Invalid move, please try again\n");
 	return SUCCESSFUL_MOVE;
+}
+
+BOOLEAN check_validity(struct move curr_move,enum cell_contents board[][BOARD_HEIGHT])
+{
+	enum cell_contents start = board[curr_move.start.x][curr_move.start.y];
+	enum cell_contents end = board[curr_move.end.x][curr_move.end.y];
+	if(curr_move.end.x < 0 || curr_move.end.y < 0 || curr_move.end.x > 6 || curr_move.end.y > 6)
+	{
+		return FALSE;
+	}
+	if(start == INVALID || start == EMPTY || start == HOLE)
+	{
+		return FALSE;
+	}
+	if(end == INVALID || end == PEG)
+	{
+		return FALSE;
+	}
+	if(abs(curr_move.start.x - curr_move.end.x) != 2)
+	{
+		if(abs(curr_move.start.y - curr_move.end.y) != 2)
+		{
+			return FALSE;
+		}
+	}
+	else
+	{
+		if(curr_move.end.x > curr_move.start.x)
+		{
+			if(board[curr_move.start.x + 1][curr_move.end.y] == EMPTY)
+			{
+				return FALSE;
+			}
+		}
+		else
+		{
+			if(board[curr_move.start.x - 1][curr_move.end.y] == EMPTY)
+			{
+				return FALSE;
+			}
+		}
+	}
+	return TRUE;
 }
