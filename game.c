@@ -51,12 +51,31 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 			fprintf(stderr, "Error: Can only move orthagonally\n");
 			return FALSE;
 		}
+		else
+		{
+			if(curr_move.end.y > curr_move.start.y)
+			{
+				if(board[curr_move.start.x][curr_move.start.y + 1] == EMPTY || board[curr_move.start.x][curr_move.start.y + 1] == HOLE)
+				{
+					fprintf(stderr, "Error: Must jump over something\n");
+					return FALSE;
+				}
+			}
+			else
+			{
+				if(board[curr_move.start.x][curr_move.start.y - 1] == EMPTY || board[curr_move.start.x][curr_move.start.y - 1] == HOLE)
+				{
+					fprintf(stderr, "Error: Must Jump over something\n");
+					return FALSE;
+				}
+			}
+		}
 	}
 	else
 	{
 		if(curr_move.end.x > curr_move.start.x)
 		{
-			if(board[curr_move.start.x + 1][curr_move.end.y] == EMPTY)
+			if(board[curr_move.start.x + 1][curr_move.start.y] == EMPTY || board[curr_move.start.x + 1][curr_move.end.y] == HOLE)
 			{
 				fprintf(stderr, "Error: Must jump over something\n");
 				return FALSE;
@@ -64,7 +83,7 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 		}
 		else
 		{
-			if(board[curr_move.start.x - 1][curr_move.end.y] == EMPTY)
+			if(board[curr_move.start.x - 1][curr_move.start.y] == EMPTY || board[curr_move.start.x - 1][curr_move.end.y] == HOLE)
 			{
 				fprintf(stderr, "Error: Must jump over something\n");
 				return FALSE;
@@ -85,17 +104,25 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 	{
 		for(width = 0; width < BOARD_WIDTH; width++)
 		{
-			if(board[height][width] == PEG)
+			
+			if(moves_exist(height, width, board))
 			{
-				if(moves_exist(height, width, board))
-				{
-					validPegs++;
-				}
-				pegs++;
+				validPegs++;
 			}
+			if(board[height][width] == PEG)
+				pegs++;
 		}
 	}
 	printf("\n");
+	if(validPegs == 0)
+	{
+		printf("Game has ended!\n%d pegs remaining\n",pegs);
+		if(pegs == 1)
+		{
+			printf("Congratulations! You have only one peg remaining\n");
+		}
+		return FALSE;
+	}
 	return FALSE;
 }
 
@@ -205,6 +232,23 @@ BOOLEAN check_validity(struct move curr_move,enum cell_contents board[][BOARD_HE
 		if(abs(curr_move.start.y - curr_move.end.y) != 2)
 		{
 			return FALSE;
+		}
+		else
+		{
+			if(curr_move.end.y > curr_move.start.y)
+			{
+				if(board[curr_move.start.x][curr_move.start.y + 1] == EMPTY || board[curr_move.start.x][curr_move.start.y + 1] == HOLE)
+				{
+					return FALSE;
+				}
+			}
+			else
+			{
+				if(board[curr_move.start.x][curr_move.start.y - 1] == EMPTY || board[curr_move.start.x][curr_move.start.y - 1] == HOLE)
+				{
+					return FALSE;
+				}
+			}
 		}
 	}
 	else
