@@ -29,7 +29,7 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 {
 	enum cell_contents start = board[curr_move.start.x][curr_move.start.y];
 	enum cell_contents end = board[curr_move.end.x][curr_move.end.y];
-	if(curr_move.end.x < 0 || curr_move.end.y < 0 || curr_move.end.x > 6 || curr_move.end.y > 6)
+	if(curr_move.end.x < WIDTH_LEFT_BOUND || curr_move.end.y < HEIGHT_LOWER_BOUND || curr_move.end.x > WIDTH_RIGHT_BOUND || curr_move.end.y > HEIGHT_UPPER_BOUND)
 	{
 		fprintf(stderr, "Error: Cannot move out of bounds\n");
 		return FALSE;
@@ -99,7 +99,7 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 	unsigned pegs = 0;
 	unsigned validPegs = 0;
 	int height, width;
-	printf("Valid moves:");
+	printf("Suggested moves:");
 	for(height = 0; height < BOARD_HEIGHT; height++)
 	{
 		for(width = 0; width < BOARD_WIDTH; width++)
@@ -121,7 +121,7 @@ BOOLEAN is_game_over(enum cell_contents board[][BOARD_HEIGHT])
 		{
 			printf("Congratulations! You have only one peg remaining\n");
 		}
-		return FALSE;
+		return TRUE;
 	}
 	return FALSE;
 }
@@ -170,6 +170,7 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	char width1, width2;
 	int initialWidth, initialHeight, finalWidth, finalHeight;
 	struct move mover;
+	printf("Please enter input in the format: A1-B1:\n");
 	while(1 > 0)
 	{
 		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
@@ -187,6 +188,10 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	mover.start.y = initialHeight;
 	mover.end.x = finalWidth;
 	mover.end.y = finalHeight;
+	if(width1 >= 'a' && width1 <= 'z')
+		width1 = toupper(width1);
+	if(width2 >= 'a' && width2 <= 'z')
+		width2 = toupper(width2);
 	if(is_valid_move(mover,board) == TRUE)
 	{
 		board[mover.end.x][mover.end.y] = board[mover.start.x][mover.start.y];
@@ -255,14 +260,14 @@ BOOLEAN check_validity(struct move curr_move,enum cell_contents board[][BOARD_HE
 	{
 		if(curr_move.end.x > curr_move.start.x)
 		{
-			if(board[curr_move.start.x + 1][curr_move.end.y] == EMPTY)
+			if(board[curr_move.start.x + 1][curr_move.start.y] == EMPTY || board[curr_move.start.x + 1][curr_move.start.y] == HOLE)
 			{
 				return FALSE;
 			}
 		}
 		else
 		{
-			if(board[curr_move.start.x - 1][curr_move.end.y] == EMPTY)
+			if(board[curr_move.start.x - 1][curr_move.start.y] == EMPTY || board[curr_move.start.x - 1][curr_move.start.y] == HOLE)
 			{
 				return FALSE;
 			}

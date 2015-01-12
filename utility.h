@@ -11,6 +11,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <ctype.h>
 #define MENU_LEN 1
 #define MAIN_LEN 10
 #define EXTRA_CHARS 2
@@ -18,6 +19,7 @@
 #define FAIL -1
 #ifndef UTILITY_H 
 #define UTILITY_H
+
 
 typedef enum {
 	FALSE, TRUE
