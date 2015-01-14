@@ -14,10 +14,6 @@
 
 #define BOARD_WIDTH	7
 #define BOARD_HEIGHT	7
-#define WIDTH_RIGHT_BOUND	6
-#define WIDTH_LEFT_BOUND	0
-#define HEIGHT_UPPER_BOUND	6
-#define HEIGHT_LOWER_BOUND	0
 
 /* colour codes for displaying the board */
 #define COLOR_RESET     "\x1b[0m"

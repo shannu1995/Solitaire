@@ -29,7 +29,7 @@ BOOLEAN is_valid_move(struct move curr_move,enum cell_contents board[][BOARD_HEI
 {
 	enum cell_contents start = board[curr_move.start.x][curr_move.start.y];
 	enum cell_contents end = board[curr_move.end.x][curr_move.end.y];
-	if(curr_move.end.x < WIDTH_LEFT_BOUND || curr_move.end.y < HEIGHT_LOWER_BOUND || curr_move.end.x > WIDTH_RIGHT_BOUND || curr_move.end.y > HEIGHT_UPPER_BOUND)
+	if(curr_move.end.x < 0 || curr_move.end.y < 0 || curr_move.end.x > 6 || curr_move.end.y > 6)
 	{
 		fprintf(stderr, "Error: Cannot move out of bounds\n");
 		return FALSE;
@@ -170,7 +170,7 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	char width1, width2;
 	int initialWidth, initialHeight, finalWidth, finalHeight;
 	struct move mover;
-	printf("Please enter input in the format: A1-B1:\n");
+	printf("Please enter input in the format: A1-B1 or ctrl-D to exit :\n");
 	while(1 > 0)
 	{
 		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
