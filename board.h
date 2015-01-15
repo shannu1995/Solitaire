@@ -9,6 +9,7 @@
  * Based on 2014 code by Paul Miller and Virginia King
  **********************************************************************/
 #include "utility.h"
+#include "solitaire.h"
 #ifndef BOARD_H 
 #define BOARD_H
 

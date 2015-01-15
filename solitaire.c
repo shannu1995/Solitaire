@@ -21,10 +21,9 @@ void display_menu(void)
 	printf("%s%s%s%s",name_of_game,option1,option2,option3);
 }
 
-int main(int argc, char *argv[])
+void menu_choose(void)
 {
 	int choice;
-	display_menu();
 	while((choice = get_integer()) == FAIL)
 	{
 		fprintf(stderr, "Invalid Input, please try again\n");
@@ -33,14 +32,33 @@ int main(int argc, char *argv[])
 	{
 		case 1:
 			play_game();
+			display_menu();
+			menu_choose();
 			break;
 		case 3:
 			exit(0);
 			break;
 		default:
-			printf("Not yet ready\n");
+			display_rules();
+			display_menu();
+			menu_choose();
 			break;
 	}
+	
+}
+
+int main(int argc, char *argv[])
+{
+	display_menu();
+	menu_choose();
 	return EXIT_SUCCESS;
 }
 
+void display_rules(void)
+{
+	char objective[] = "\nOBJECTIVE: To remove as many pegs as possible\n";
+	char rule1[] = "Must jump over a peg for it to be deleted\n";
+	char rule2[] = "Cannot move diagonally\n";
+	char rule3[] = "Cannot move out of bounds\n";
+	printf("%s%s%s%s",objective,rule1,rule2,rule3);
+}

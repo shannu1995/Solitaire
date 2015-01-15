@@ -13,6 +13,8 @@
 #ifndef SOLITAIRE_H 
 #define SOLITAIRE_H
 void display_menu(void);
+void menu_choose(void);
+void display_rules(void);
 /* delete this comment and create any type declarations or function
  * prototypes that you might need here */
 

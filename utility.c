@@ -57,6 +57,11 @@ char* get_string(char prompt[], int length)
 	fgets(temp, MAIN_LEN + EXTRA_CHARS, stdin);
 	if(temp[strlen(temp) - 1] != '\n')
 	{
+		if(strlen(temp) <= length)
+		{
+			printf("You chose to exit\n");
+			return "MENU";
+		}
 		fprintf(stderr, "Error: Input too long\n");
 		return "FAIL";
 	}

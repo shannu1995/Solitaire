@@ -15,11 +15,14 @@
 void play_game(void)
 {
 	enum cell_contents board[BOARD_WIDTH][BOARD_HEIGHT];
+	enum move_result move;
 	init_board(board);
 	display_board(board);
 	while(!is_game_over(board))
 	{
-		player_move(board);
+		move = player_move(board);
+		if(move == QUIT_GAME)
+			break;
 		display_board(board);
 	}
 }
@@ -170,13 +173,20 @@ enum move_result player_move(enum cell_contents board[][BOARD_HEIGHT])
 	char width1, width2;
 	int initialWidth, initialHeight, finalWidth, finalHeight;
 	struct move mover;
+	char* testing;
 	printf("Please enter input in the format: A1-B1 or ctrl-D to exit :\n");
 	while(1 > 0)
 	{
-		if(strcmp(get_string(prompt, MAIN_LEN + EXTRA_CHARS),"FAIL") == 0)
+		testing = get_string(prompt, MAIN_LEN + EXTRA_CHARS);
+		if(strcmp(testing,"FAIL") == 0)
 			fprintf(stderr,"Error: Invalid Input, please try again\n");
 		else
 			break;
+	}
+	if(strcmp(testing,"MENU") == 0)
+	{
+		printf("You chose to quit\n");
+		return QUIT_GAME;
 	}
 	width1 = prompt[0];
 	width2 = prompt[strlen(prompt) - 2];
